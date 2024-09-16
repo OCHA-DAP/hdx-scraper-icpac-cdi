@@ -2,8 +2,7 @@
 """icpac_cdi scraper"""
 
 import logging
-from typing import List, Optional
-
+from typing import Optional
 
 from hdx.api.configuration import Configuration
 from hdx.data.dataset import Dataset
@@ -14,7 +13,6 @@ logger = logging.getLogger(__name__)
 
 
 class icpac_cdi:
-
     def __init__(
         self, configuration: Configuration, retriever: Retrieve, temp_dir: str
     ):
@@ -22,9 +20,7 @@ class icpac_cdi:
         self._retriever = retriever
         self._temp_dir = temp_dir
 
-
     def generate_dataset(self) -> Optional[Dataset]:
-
         # To be generated
         dataset_name = None
         dataset_title = None
@@ -47,7 +43,9 @@ class icpac_cdi:
         try:
             dataset.add_country_location(dataset_country_iso3)
         except HDXError:
-            logger.error(f"Couldn't find country {dataset_country_iso3}, skipping")
+            logger.error(
+                f"Couldn't find country {dataset_country_iso3}, skipping"
+            )
             return
 
         # Add resources here

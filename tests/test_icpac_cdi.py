@@ -1,6 +1,7 @@
 from os.path import join
 
 import pytest
+
 from hdx.api.configuration import Configuration
 from hdx.utilities.downloader import Download
 from hdx.utilities.path import temp_dir
@@ -31,13 +32,7 @@ class Testicpac_cdi:
     def config_dir(self, fixtures_dir):
         return join("src", "hdx", "scraper", "icpac_cdi", "config")
 
-    def test_cesa(
-        self,
-        configuration,
-        fixtures_dir,
-        input_dir,
-        config_dir
-    ):
+    def test_cesa(self, configuration, fixtures_dir, input_dir, config_dir):
         with temp_dir(
             "Testicpac_cdi",
             delete_on_success=True,
