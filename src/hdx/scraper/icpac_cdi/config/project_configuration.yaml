@@ -1,1 +1,36 @@
 # Collector specific configuration
+
+time_periods:
+  - dekadal
+  - monthly
+
+dekadal:
+  url: https://droughtwatch.icpac.net/ftp/dekadal/geotif/
+  notes: Dekadal (10days) Combined Drought Indicator (CDI) as implemented in the East Africa Drought Watch, and which is used for detecting and monitoring areas that either are affected or have the potential to be affected by meteorological, agricultural and/or hydrological drought.
+  update_frequency: 7
+  title: IGAD Region - Dekadal Combined Drought Indicator (CDI)
+
+monthly:
+  url: https://droughtwatch.icpac.net/ftp/monthly/geotif/
+  notes: Monthly Combined Drought Indicator (CDI) as implemented in the East Africa Drought Watch, and which is used for detecting and monitoring areas that either are affected or have the potential to be affected by meteorological, agricultural and/or hydrological drought.
+  update_frequency: 30
+  title: IGAD Region - Monthly Combined Drought Indicator (CDI)
+
+tags:
+  - climate hazards
+  - climate-weather
+  - drought
+  - hazards and risk
+
+countries:
+  - BDI
+  - DJI
+  - ERI
+  - ETH
+  - KEN
+  - RWA
+  - SOM
+  - SSD
+  - SDN
+  - UGA
+  - TZA

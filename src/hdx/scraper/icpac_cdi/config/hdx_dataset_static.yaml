@@ -6,5 +6,3 @@ package_creator: HDX Data Systems Team
 private: False
 maintainer: aa13de36-28c5-47a7-8d0b-6d7c754ba8c8
 owner_org:  04436cdf-24da-4826-b5b8-67cba9962423
-data_update_frequency: 7
-notes: Dekadal (10days) Combined Drought Indicator (CDI) as implemented in the East Africa Drought Watch, and which is used for detecting and monitoring areas that either are affected or have the potential to be affected by meteorological, agricultural and/or hydrological drought.
