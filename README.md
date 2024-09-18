@@ -2,7 +2,7 @@
 [![Build Status](https://github.com/OCHA-DAP/hdx-scraper-icpac-cdi/actions/workflows/run-python-tests.yaml/badge.svg)](https://github.com/OCHA-DAP/hdx-scraper-icpac-cdi/actions/workflows/run-python-tests.yaml)
 [![Coverage Status](https://coveralls.io/repos/github/OCHA-DAP/hdx-scraper-icpac-cdi/badge.svg?branch=main&ts=1)](https://coveralls.io/github/OCHA-DAP/hdx-scraper-icpac-cdi?branch=main)
 
-This script ...
+This script downloads geotiff data from the [ICPAC site](https://droughtwatch.icpac.net/ftp/) and creates corresponding datasets on HDX. It only downloads files that are not present in HDX to save time and space.
 
 ## Development
 
