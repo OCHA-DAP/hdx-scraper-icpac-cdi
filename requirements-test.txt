@@ -11,6 +11,9 @@ attrs==24.2.0
     #   jsonlines
     #   jsonschema
     #   referencing
+beautifulsoup4~=4.12.3
+    # via
+    #   hdx-scraper-icpac-cdi (pyproject.toml)
 certifi==2024.8.30
     # via
     #   -c requirements.txt
