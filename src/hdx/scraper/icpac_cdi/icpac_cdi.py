@@ -42,9 +42,7 @@ class ICPAC_CDI:
             if not dataset:
                 continue
             resources = dataset.get_resources()
-            self.hdx_data[dataset_name] = [
-                resource["name"] for resource in resources
-            ]
+            self.hdx_data[dataset_name] = [resource["name"] for resource in resources]
 
     def get_data(self) -> List[str]:
         for time_period in self._time_periods:
@@ -71,9 +69,7 @@ class ICPAC_CDI:
                     continue
                 file_url = f"{base_url}{filename}"
                 try:
-                    filepath = self._retriever.download_file(
-                        file_url, filename=filename
-                    )
+                    filepath = self._retriever.download_file(file_url, filename=filename)
                 except DownloadError:
                     logger.error(f"Could not download file {filename}")
                     continue
@@ -82,14 +78,10 @@ class ICPAC_CDI:
 
                 file_date = filename.split(".")[0].split("-")[4:]
                 if time_period == "dekadal":
-                    date_start = datetime(
-                        self._year, int(file_date[0]), int(file_date[1])
-                    )
+                    date_start = datetime(self._year, int(file_date[0]), int(file_date[1]))
                     date_end = date_start + timedelta(days=9)
                 if time_period == "monthly":
-                    date_start = datetime.strptime(
-                        f"{self._year} {file_date[0]} 1", "%Y %b %d"
-                    )
+                    date_start = datetime.strptime(f"{self._year} {file_date[0]} 1", "%Y %b %d")
                     date_end = date_start + relativedelta(day=31)
                 dict_of_lists_add(self.dates, dataset_name, date_start)
                 dict_of_lists_add(self.dates, dataset_name, date_end)

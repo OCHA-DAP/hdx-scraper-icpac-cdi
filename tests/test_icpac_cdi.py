@@ -16,7 +16,10 @@ def expected_dataset():
         "name": "igad-region-dekadal-combined-drought-indicator-cdi-2024",
         "title": "IGAD Region - Dekadal Combined Drought Indicator (CDI) 2024",
         "dataset_date": "[2024-01-01T00:00:00 TO 2024-02-10T23:59:59]",
-        "notes": "Dekadal (10days) Combined Drought Indicator (CDI) as implemented in the East Africa Drought Watch, and which is used for detecting and monitoring areas that either are affected or have the potential to be affected by meteorological, agricultural and/or hydrological drought.",
+        "notes": "Dekadal (10days) Combined Drought Indicator (CDI) as implemented in the East "
+        "Africa Drought Watch, and which is used for detecting and monitoring areas "
+        "that either are affected or have the potential to be affected by "
+        "meteorological, agricultural and/or hydrological drought.",
         "tags": [
             {
                 "name": "climate hazards",
@@ -107,10 +110,7 @@ class TestICPAC_CDI:
         class Dataset:
             @staticmethod
             def read_from_hdx(dataset_name):
-                if (
-                    dataset_name
-                    == "igad-region-monthly-combined-drought-indicator-cdi-year"
-                ):
+                if dataset_name == "igad-region-monthly-combined-drought-indicator-cdi-year":
                     return None
                 return Dataset.load_from_json(
                     join(
@@ -172,8 +172,6 @@ class TestICPAC_CDI:
                 dataset = icpac_cdi.generate_dataset(
                     "igad-region-dekadal-combined-drought-indicator-cdi-2024"
                 )
-                dataset.update_from_yaml(
-                    path=join(config_dir, "hdx_dataset_static.yaml")
-                )
+                dataset.update_from_yaml(path=join(config_dir, "hdx_dataset_static.yaml"))
                 assert dataset == expected_dataset
                 assert dataset.get_resources() == expected_resources

@@ -65,9 +65,7 @@ def main(
                 dataset = icpac_cdi.generate_dataset(dataset_name)
 
                 dataset.update_from_yaml(
-                    path=join(
-                        dirname(__file__), "config", "hdx_dataset_static.yaml"
-                    )
+                    path=join(dirname(__file__), "config", "hdx_dataset_static.yaml")
                 )
                 dataset.create_in_hdx(
                     remove_additional_resources=False,
@@ -85,7 +83,5 @@ if __name__ == "__main__":
         hdx_site="dev",
         user_agent_config_yaml=join(expanduser("~"), ".useragents.yaml"),
         user_agent_lookup=_USER_AGENT_LOOKUP,
-        project_config_yaml=join(
-            dirname(__file__), "config", "project_configuration.yaml"
-        ),
+        project_config_yaml=join(dirname(__file__), "config", "project_configuration.yaml"),
     )
