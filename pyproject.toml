@@ -12,6 +12,7 @@ build-backend = "hatchling.build"
 name = "hdx-scraper-icpac-cdi"
 requires-python = ">=3.12"
 dependencies = [
+  "bs4",
   "hdx-python-api",
   "hdx-python-utilities",
 ]
