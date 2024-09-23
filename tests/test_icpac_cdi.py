@@ -109,7 +109,7 @@ class TestICPAC_CDI:
         class Dataset:
             @staticmethod
             def read_from_hdx(dataset_name):
-                if dataset_name == "igad-region-monthly-combined-drought-indicator-cdi-year":
+                if dataset_name == "igad-region-monthly-combined-drought-indicator-cdi-2024":
                     return None
                 return Dataset.load_from_json(
                     join(
@@ -161,6 +161,9 @@ class TestICPAC_CDI:
                     tempdir,
                     2024,
                 )
+
+                icpac_cdi.get_hdx_data()
+                assert icpac_cdi.hdx_data == {}
 
                 dataset_names = icpac_cdi.get_data()
                 assert dataset_names == [
