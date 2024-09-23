@@ -2,11 +2,10 @@
 """icpac_cdi scraper"""
 
 import logging
-from datetime import datetime, timedelta
-from typing import List
-
 from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from typing import List
 
 from hdx.api.configuration import Configuration
 from hdx.data.dataset import Dataset
