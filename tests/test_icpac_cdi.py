@@ -2,6 +2,7 @@ from os.path import join
 
 import pytest
 from hdx.api.configuration import Configuration
+from hdx.data.dataset import Dataset
 from hdx.scraper.icpac_cdi.icpac_cdi import ICPAC_CDI
 from hdx.utilities.downloader import Download
 from hdx.utilities.path import temp_dir
