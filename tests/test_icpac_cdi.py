@@ -68,18 +68,6 @@ def expected_dataset():
 def expected_resources():
     return [
         {
-            "name": "eadw-cdi-data-2024-01-01.tif",
-            "format": "geotiff",
-            "resource_type": "file.upload",
-            "url_type": "upload",
-        },
-        {
-            "name": "eadw-cdi-data-2024-01-11.tif",
-            "format": "geotiff",
-            "resource_type": "file.upload",
-            "url_type": "upload",
-        },
-        {
             "name": "eadw-cdi-data-2024-01-21.tif",
             "format": "geotiff",
             "resource_type": "file.upload",
@@ -105,13 +93,12 @@ class TestICPAC_CDI:
         )
         return Configuration.read()
 
-    @pytest.fixture(scope="module")
-    def Dataset(self):
-        class Dataset:
-            @staticmethod
-            def read_from_hdx(dataset_name):
-                if dataset_name == "igad-region-monthly-combined-drought-indicator-cdi-2024":
-                    return None
+    @pytest.fixture(scope="function")
+    def read_dataset(self, monkeypatch):
+        def read_from_hdx(dataset_name):
+            if dataset_name == "igad-region-monthly-combined-drought-indicator-cdi-2024":
+                return None
+            else:
                 return Dataset.load_from_json(
                     join(
                         "tests",
@@ -120,6 +107,8 @@ class TestICPAC_CDI:
                         f"dataset-{dataset_name}.json",
                     )
                 )
+
+        monkeypatch.setattr(Dataset, "read_from_hdx", staticmethod(read_from_hdx))
 
     @pytest.fixture(scope="class")
     def fixtures_dir(self):
@@ -141,6 +130,7 @@ class TestICPAC_CDI:
         config_dir,
         expected_dataset,
         expected_resources,
+        read_dataset,
     ):
         with temp_dir(
             "Testicpac_cdi",
@@ -164,7 +154,12 @@ class TestICPAC_CDI:
                 )
 
                 icpac_cdi.get_hdx_data()
-                assert icpac_cdi.hdx_data == {}
+                assert icpac_cdi.hdx_data == {
+                    "igad-region-dekadal-combined-drought-indicator-cdi-2024": [
+                        "eadw-cdi-data-2024-01-01.tif",
+                        "eadw-cdi-data-2024-01-11.tif",
+                    ]
+                }
 
                 dataset_names = icpac_cdi.get_data()
                 assert dataset_names == [
