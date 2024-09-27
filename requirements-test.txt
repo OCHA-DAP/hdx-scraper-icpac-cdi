@@ -137,7 +137,7 @@ loguru==0.7.2
     # via
     #   -c requirements.txt
     #   hdx-python-utilities
-makefun==1.15.4
+makefun==1.15.6
     # via
     #   -c requirements.txt
     #   hdx-python-api

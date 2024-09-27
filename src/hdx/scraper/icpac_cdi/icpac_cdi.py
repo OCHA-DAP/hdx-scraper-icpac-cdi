@@ -2,7 +2,7 @@
 """icpac_cdi scraper"""
 
 import logging
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import List
 
 from bs4 import BeautifulSoup
@@ -11,6 +11,7 @@ from hdx.api.configuration import Configuration
 from hdx.data.dataset import Dataset
 from hdx.data.resource import Resource
 from hdx.utilities.base_downloader import DownloadError
+from hdx.utilities.dateparse import parse_date
 from hdx.utilities.dictandlist import dict_of_lists_add
 from hdx.utilities.retriever import Retrieve
 
@@ -34,13 +35,17 @@ class ICPAC_CDI:
         self.data = {}
         self.dates = {}
 
+    def get_date_string(self, filename: str) -> str:
+        file_date = "-".join(filename.split(".")[0].split("-")[4:])
+        return file_date
+
     def parse_date(self, filename: str, time_period: str, dataset_name: str) -> None:
-        file_date = filename.split(".")[0].split("-")[4:]
+        file_date = self.get_date_string(filename)
         if time_period == "dekadal":
-            date_start = datetime(self._year, int(file_date[0]), int(file_date[1]))
+            date_start = parse_date(f"{self._year}-{file_date}", date_format="%Y-%m-%d")
             date_end = date_start + timedelta(days=9)
         if time_period == "monthly":
-            date_start = datetime.strptime(f"{self._year} {file_date[0]} 1", "%Y %b %d")
+            date_start = parse_date(f"{self._year}-{file_date}-01", date_format="%Y-%b-%d")
             date_end = date_start + relativedelta(day=31)
 
         dict_of_lists_add(self.dates, dataset_name, date_start)
@@ -121,10 +126,14 @@ class ICPAC_CDI:
         resources = []
         resource_paths = self.data[dataset_name]
         for resource_path in resource_paths:
+            resource_name = resource_path.split("/")[-1]
+            resource_date = f"{self._year}-{self.get_date_string(resource_name)}"
+            resource_description = dataset_info["description"].replace("[date]", resource_date)
             resource = Resource(
                 {
-                    "name": resource_path.split("/")[-1],
+                    "name": resource_name,
                     "format": "GeoTIFF",
+                    "description": resource_description,
                 }
             )
             resource.set_file_to_upload(resource_path)

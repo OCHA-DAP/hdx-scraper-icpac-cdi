@@ -16,7 +16,7 @@ def expected_dataset():
         "name": "igad-region-dekadal-combined-drought-indicator-cdi-2024",
         "title": "IGAD Region - Dekadal Combined Drought Indicator (CDI) 2024",
         "dataset_date": "[2024-01-01T00:00:00 TO 2024-02-10T23:59:59]",
-        "notes": "Dekadal (10days) Combined Drought Indicator (CDI) as implemented in the East "
+        "notes": "Dekadal (10 days) Combined Drought Indicator (CDI) as implemented in the East "
         "Africa Drought Watch, and which is used for detecting and monitoring areas "
         "that either are affected or have the potential to be affected by "
         "meteorological, agricultural and/or hydrological drought.",
@@ -70,12 +70,14 @@ def expected_resources():
         {
             "name": "eadw-cdi-data-2024-01-21.tif",
             "format": "geotiff",
+            "description": "Dekadal (10 days) Combined Drought Indicator (CDI) for 2024-01-21",
             "resource_type": "file.upload",
             "url_type": "upload",
         },
         {
             "name": "eadw-cdi-data-2024-02-01.tif",
             "format": "geotiff",
+            "description": "Dekadal (10 days) Combined Drought Indicator (CDI) for 2024-02-01",
             "resource_type": "file.upload",
             "url_type": "upload",
         },

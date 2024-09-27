@@ -74,7 +74,6 @@ def main(
                     hxl_update=False,
                     updated_by_script=_UPDATED_BY_SCRIPT,
                     batch=info["batch"],
-                    ignore_check=["resource:description"],
                 )
 
 
