@@ -17,7 +17,7 @@ from hdx.utilities.path import (
 )
 from hdx.utilities.retriever import Retrieve
 
-from icpac_cdi import ICPAC_CDI
+from .icpac_cdi import ICPAC_CDI
 
 logger = logging.getLogger(__name__)
 
