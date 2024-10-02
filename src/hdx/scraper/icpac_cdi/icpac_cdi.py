@@ -24,13 +24,13 @@ class ICPAC_CDI:
         configuration: Configuration,
         retriever: Retrieve,
         temp_dir: str,
-        year: int,
+        years: List[int],
     ):
         self._configuration = configuration
         self._retriever = retriever
         self._temp_dir = temp_dir
         self._time_periods = configuration["time_periods"]
-        self._year = year
+        self._years = years
         self.hdx_data = {}
         self.data = {}
         self.dates = {}
@@ -39,72 +39,75 @@ class ICPAC_CDI:
         file_date = "-".join(filename.split(".")[0].split("-")[4:])
         return file_date
 
-    def parse_date(self, filename: str, time_period: str, dataset_name: str) -> None:
+    def parse_date(self, filename: str, time_period: str, dataset_name: str, year: int) -> None:
         file_date = self.get_date_string(filename)
         if time_period == "dekadal":
-            date_start = parse_date(f"{self._year}-{file_date}", date_format="%Y-%m-%d")
+            date_start = parse_date(f"{year}-{file_date}", date_format="%Y-%m-%d")
             date_end = date_start + timedelta(days=9)
         if time_period == "monthly":
-            date_start = parse_date(f"{self._year}-{file_date}-01", date_format="%Y-%b-%d")
+            date_start = parse_date(f"{year}-{file_date}-01", date_format="%Y-%b-%d")
             date_end = date_start + relativedelta(day=31)
 
         dict_of_lists_add(self.dates, dataset_name, date_start)
         dict_of_lists_add(self.dates, dataset_name, date_end)
 
     def get_hdx_data(self) -> None:
-        for time_period in self._time_periods:
-            dataset_name = f"igad-region-{time_period}-combined-drought-indicator-cdi-{self._year}"
-            dataset = Dataset.read_from_hdx(dataset_name)
-            if not dataset:
-                continue
-            resources = dataset.get_resources()
-            for resource in resources:
-                dict_of_lists_add(self.hdx_data, dataset_name, resource["name"])
-                self.parse_date(resource["name"], time_period, dataset_name)
+        for year in self._years:
+            for time_period in self._time_periods:
+                dataset_name = f"igad-region-{time_period}-combined-drought-indicator-cdi-{year}"
+                dataset = Dataset.read_from_hdx(dataset_name)
+                if not dataset:
+                    continue
+                resources = dataset.get_resources()
+                for resource in resources:
+                    dict_of_lists_add(self.hdx_data, dataset_name, resource["name"])
+                    self.parse_date(resource["name"], time_period, dataset_name, year)
 
     def get_data(self) -> List[str]:
-        for time_period in self._time_periods:
-            logger.info(f"Downloading {time_period} data for {self._year}")
-            dataset_info = self._configuration[time_period]
-            dataset_name = f"igad-region-{time_period}-combined-drought-indicator-cdi-{self._year}"
-            base_url = f"{dataset_info['url']}{self._year}/"
+        for year in self._years:
+            for time_period in self._time_periods:
+                logger.info(f"Downloading {time_period} data for {year}")
+                dataset_info = self._configuration[time_period]
+                dataset_name = f"igad-region-{time_period}-combined-drought-indicator-cdi-{year}"
+                base_url = f"{dataset_info['url']}{year}/"
 
-            try:
-                text = self._retriever.download_text(
-                    base_url, filename=f"{time_period}_{self._year}"
-                )
-            except DownloadError:
-                logger.error(f"Could not get data from {base_url}")
-                continue
-
-            soup = BeautifulSoup(text, "html.parser")
-            lines = soup.find_all("a")
-            for line in lines:
-                filename = line.get("href")
-                if filename[-3:] != "tif":
-                    continue
-                if filename in self.hdx_data.get(dataset_name, []):
-                    continue
-                file_url = f"{base_url}{filename}"
                 try:
-                    filepath = self._retriever.download_file(file_url, filename=filename)
+                    text = self._retriever.download_text(
+                        base_url, filename=f"{time_period}_{year}"
+                    )
                 except DownloadError:
-                    logger.error(f"Could not download file {filename}")
+                    logger.error(f"Could not get data from {base_url}")
                     continue
 
-                dict_of_lists_add(self.data, dataset_name, filepath)
-                self.parse_date(filename, time_period, dataset_name)
+                soup = BeautifulSoup(text, "html.parser")
+                lines = soup.find_all("a")
+                for line in lines:
+                    filename = line.get("href")
+                    if filename[-3:] != "tif":
+                        continue
+                    if filename in self.hdx_data.get(dataset_name, []):
+                        continue
+                    file_url = f"{base_url}{filename}"
+                    try:
+                        filepath = self._retriever.download_file(file_url, filename=filename)
+                    except DownloadError:
+                        logger.error(f"Could not download file {filename}")
+                        continue
+
+                    dict_of_lists_add(self.data, dataset_name, filepath)
+                    self.parse_date(filename, time_period, dataset_name, year)
 
         return [dataset_name for dataset_name in sorted(self.data)]
 
     def generate_dataset(self, dataset_name: str) -> Dataset:
+        year = dataset_name.split("-")[-1]
         if "dekadal" in dataset_name:
             time_period = "dekadal"
         if "monthly" in dataset_name:
             time_period = "monthly"
 
         dataset_info = self._configuration[time_period]
-        dataset_title = f"{dataset_info['title']} {self._year}"
+        dataset_title = f"{dataset_info['title']} {year}"
 
         dataset = Dataset(
             {
@@ -127,7 +130,7 @@ class ICPAC_CDI:
         resource_paths = self.data[dataset_name]
         for resource_path in resource_paths:
             resource_name = resource_path.split("/")[-1]
-            resource_date = f"{self._year}-{self.get_date_string(resource_name)}"
+            resource_date = f"{year}-{self.get_date_string(resource_name)}"
             resource_description = dataset_info["description"].replace("[date]", resource_date)
             resource = Resource(
                 {

@@ -152,7 +152,7 @@ class TestICPAC_CDI:
                     configuration,
                     retriever,
                     tempdir,
-                    2024,
+                    [2024],
                 )
 
                 icpac_cdi.get_hdx_data()

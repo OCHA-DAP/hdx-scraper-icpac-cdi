@@ -56,7 +56,7 @@ def main(
                 configuration,
                 retriever,
                 temp_dir,
-                datetime.today().year,
+                years=[datetime.today().year, datetime.today().year - 1],
             )
 
             icpac_cdi.get_hdx_data()

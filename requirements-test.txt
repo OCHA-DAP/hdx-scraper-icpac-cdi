@@ -66,7 +66,7 @@ et-xmlfile==1.1.0
     # via
     #   -c requirements.txt
     #   openpyxl
-frictionless==5.17.1
+frictionless==5.18.0
     # via
     #   -c requirements.txt
     #   hdx-python-utilities
@@ -78,7 +78,7 @@ hdx-python-country==3.7.8
     # via
     #   -c requirements.txt
     #   hdx-python-api
-hdx-python-utilities==3.7.3
+hdx-python-utilities==3.7.4
     # via
     #   -c requirements.txt
     #   hdx-scraper-icpac-cdi (pyproject.toml)
@@ -257,7 +257,7 @@ rfc3986==2.0.0
     # via
     #   -c requirements.txt
     #   frictionless
-rich==13.8.1
+rich==13.9.1
     # via
     #   -c requirements.txt
     #   typer
