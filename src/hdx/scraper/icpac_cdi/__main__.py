@@ -9,6 +9,7 @@ import logging
 from datetime import datetime
 from os.path import dirname, expanduser, join
 
+from dateutil.relativedelta import relativedelta
 from hdx.api.configuration import Configuration
 from hdx.facades.infer_arguments import facade
 from hdx.utilities.downloader import Download
@@ -51,12 +52,13 @@ def main(
                 use_saved=use_saved,
             )
             configuration = Configuration.read()
-
+            previous_year = (datetime.today() - relativedelta(months=6)).year
+            years = list(set([datetime.today().year, previous_year]))
             icpac_cdi = ICPAC_CDI(
                 configuration,
                 retriever,
                 temp_dir,
-                years=[datetime.today().year, datetime.today().year - 1],
+                years=years,
             )
 
             icpac_cdi.get_hdx_data()

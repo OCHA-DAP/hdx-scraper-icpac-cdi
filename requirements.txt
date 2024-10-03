@@ -40,7 +40,7 @@ frictionless==5.18.0
     # via hdx-python-utilities
 hdx-python-api==6.3.4
     # via hdx-scraper-icpac-cdi (pyproject.toml)
-hdx-python-country==3.7.8
+hdx-python-country==3.7.9
     # via hdx-python-api
 hdx-python-utilities==3.7.4
     # via

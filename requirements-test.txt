@@ -74,7 +74,7 @@ hdx-python-api==6.3.4
     # via
     #   -c requirements.txt
     #   hdx-scraper-icpac-cdi (pyproject.toml)
-hdx-python-country==3.7.8
+hdx-python-country==3.7.9
     # via
     #   -c requirements.txt
     #   hdx-python-api
