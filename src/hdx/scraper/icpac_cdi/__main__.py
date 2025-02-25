@@ -18,7 +18,7 @@ from hdx.utilities.path import (
 )
 from hdx.utilities.retriever import Retrieve
 
-from .icpac_cdi import ICPAC_CDI
+from hdx.scraper.icpac_cdi.icpac_cdi import ICPAC_CDI
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +53,7 @@ def main(
             )
             configuration = Configuration.read()
             previous_year = (datetime.today() - relativedelta(months=6)).year
-            years = list(set([datetime.today().year, previous_year]))
+            years = list({datetime.today().year, previous_year})
             icpac_cdi = ICPAC_CDI(
                 configuration,
                 retriever,
@@ -72,7 +72,6 @@ def main(
                 )
                 dataset.create_in_hdx(
                     remove_additional_resources=False,
-                    match_resource_order=False,
                     hxl_update=False,
                     updated_by_script=_UPDATED_BY_SCRIPT,
                     batch=info["batch"],
