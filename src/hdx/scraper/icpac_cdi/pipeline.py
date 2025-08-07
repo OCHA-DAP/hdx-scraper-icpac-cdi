@@ -18,7 +18,7 @@ from hdx.utilities.retriever import Retrieve
 logger = logging.getLogger(__name__)
 
 
-class ICPAC_CDI:
+class Pipeline:
     def __init__(
         self,
         configuration: Configuration,
@@ -39,7 +39,9 @@ class ICPAC_CDI:
         file_date = "-".join(filename.split(".")[0].split("-")[4:])
         return file_date
 
-    def parse_date(self, filename: str, time_period: str, dataset_name: str, year: int) -> None:
+    def parse_date(
+        self, filename: str, time_period: str, dataset_name: str, year: int
+    ) -> None:
         file_date = self.get_date_string(filename)
         if time_period == "dekadal":
             date_start = parse_date(f"{year}-{file_date}", date_format="%Y-%m-%d")
@@ -54,7 +56,9 @@ class ICPAC_CDI:
     def get_hdx_data(self) -> None:
         for year in self._years:
             for time_period in self._time_periods:
-                dataset_name = f"igad-region-{time_period}-combined-drought-indicator-cdi-{year}"
+                dataset_name = (
+                    f"igad-region-{time_period}-combined-drought-indicator-cdi-{year}"
+                )
                 dataset = Dataset.read_from_hdx(dataset_name)
                 if not dataset:
                     continue
@@ -68,7 +72,9 @@ class ICPAC_CDI:
             for time_period in self._time_periods:
                 logger.info(f"Downloading {time_period} data for {year}")
                 dataset_info = self._configuration[time_period]
-                dataset_name = f"igad-region-{time_period}-combined-drought-indicator-cdi-{year}"
+                dataset_name = (
+                    f"igad-region-{time_period}-combined-drought-indicator-cdi-{year}"
+                )
                 base_url = f"{dataset_info['url']}{year}/"
 
                 try:
@@ -89,7 +95,9 @@ class ICPAC_CDI:
                         continue
                     file_url = f"{base_url}{filename}"
                     try:
-                        filepath = self._retriever.download_file(file_url, filename=filename)
+                        filepath = self._retriever.download_file(
+                            file_url, filename=filename
+                        )
                     except DownloadError:
                         logger.error(f"Could not download file {filename}")
                         continue
@@ -131,7 +139,9 @@ class ICPAC_CDI:
         for resource_path in resource_paths:
             resource_name = resource_path.split("/")[-1]
             resource_date = f"{year}-{self.get_date_string(resource_name)}"
-            resource_description = dataset_info["description"].replace("[date]", resource_date)
+            resource_description = dataset_info["description"].replace(
+                "[date]", resource_date
+            )
             resource = Resource(
                 {
                     "name": resource_name,
