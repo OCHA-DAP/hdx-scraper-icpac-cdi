@@ -109,14 +109,10 @@ class TestPipeline:
                         "name": "eadw-cdi-data-2024-01-21.tif",
                         "format": "geotiff",
                         "description": "Dekadal (10 days) Combined Drought Indicator (CDI) for 2024-01-21",
-                        "resource_type": "file.upload",
-                        "url_type": "upload",
                     },
                     {
                         "name": "eadw-cdi-data-2024-02-01.tif",
                         "format": "geotiff",
                         "description": "Dekadal (10 days) Combined Drought Indicator (CDI) for 2024-02-01",
-                        "resource_type": "file.upload",
-                        "url_type": "upload",
                     },
                 ]
