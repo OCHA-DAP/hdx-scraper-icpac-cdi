@@ -145,10 +145,10 @@ class Pipeline:
             resource = Resource(
                 {
                     "name": resource_name,
-                    "format": "GeoTIFF",
                     "description": resource_description,
                 }
             )
+            resource.set_format("geotiff")
             resource.set_file_to_upload(resource_path)
             resources.append(resource)
         dataset.add_update_resources(resources)
