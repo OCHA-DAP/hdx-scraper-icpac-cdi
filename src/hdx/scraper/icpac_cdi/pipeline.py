@@ -137,7 +137,7 @@ class Pipeline:
         resources = []
         resource_paths = self.data[dataset_name]
         for resource_path in resource_paths:
-            resource_name = resource_path.split("/")[-1]
+            resource_name = resource_path.name
             resource_date = f"{year}-{self.get_date_string(resource_name)}"
             resource_description = dataset_info["description"].replace(
                 "[date]", resource_date
