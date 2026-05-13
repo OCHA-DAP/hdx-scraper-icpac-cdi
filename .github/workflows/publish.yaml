@@ -46,4 +46,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: public.ecr.aws/unocha/hdx-scraper-icpac_cdi:${{ steps.tag_info.outputs.IMAGE_TAG }}
+          tags: public.ecr.aws/unocha/hdx-scraper-icpac-cdi:${{ steps.tag_info.outputs.IMAGE_TAG }}
